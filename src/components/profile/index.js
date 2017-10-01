@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import style from './style.less';
 
+// This will be the area where where all the user information will be displayed.
 export default class Profile extends Component {
 	state = {
 		count: 0
@@ -26,9 +27,8 @@ export default class Profile extends Component {
 	componentWillUnmount() {
 		clearInterval(this.timer);
 	}
-
-	// Note: `user` comes from the URL, courtesy of our router
-	render({ user }, { time, count }) {
+	
+	renderProfile( { user }, { time, count }) {
 		return (
 			<div class={style.profile}>
 				<h1>Profile: {user}</h1>
@@ -36,6 +36,23 @@ export default class Profile extends Component {
 
 				<div>Current time: {time}</div>
 				<div>Profile route mounted {count} times.</div>
+			</div>
+		);
+	}
+	renderPrompt() {
+		return (
+			<div class={style.profile}>
+			You are not currently logged in.
+			</div>
+		);
+	}
+
+	// Note: `user` comes from the URL, courtesy of our router
+	render() {
+		let loggedIn = false;
+		return (
+			<div>
+				{ loggedIn ? this.renderProfile : this.renderPrompt }
 			</div>
 		);
 	}
